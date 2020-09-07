@@ -8,7 +8,10 @@ class Controller{
     if(!await DbUtil.hasDbConnection) return {};
     Map result = await DbNetAccess.getDocuments(DbUtil.DATABASE['todolist'], user.toMapWOid(), user.toList());
     if(result.isNotEmpty && result['onError'] == 'None'){
-      print(await DbLocalAccess.createLocalDocuments(DbUtil.DATABASE['todolist'], result['result'][0]));
+      Map<String,Object> body = result['result'][0];
+      print(await DbLocalAccess.createLocalDocuments(DbUtil.DATABASE['todolist'], body));
+      print((await DbLocalAccess.getLocalDocuments(DbUtil.DATABASE['todolist'])).toString());
+      //, DbUtil.DOCTYPE['user_auth']
       return result;
     }
     return result;
@@ -19,7 +22,7 @@ class Controller{
 class UserController{
 
   static Future<Map> getUser(User user) async {
-    if(!await DbUtil.hasDbConnection)return {};
+    if(!await DbUtil.hasDbConnection) return {};
     return await DbNetAccess.getDocuments(DbUtil.DATABASE['todolist'], user.toMapWid(), user.toList());
   }
 

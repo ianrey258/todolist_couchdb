@@ -66,10 +66,9 @@ class DbNetAccess{
   }
 
   //get Database Documents or Document
-  static Future<Map> getDocuments(String database,Map selector,List fields)async{
+  static Future<Map> getDocuments(String database,Map selector,List<String> fields)async{
     try{
       final DatabasesResponse databasesResponse = await DbUtil.databases.then((value) => value.find(database,selector,fields: fields));
-      print(databasesResponse.docs.toString());
       return DbUtil.getResult(databasesResponse.docs);
     }catch(e){
       print(e);
@@ -128,9 +127,9 @@ class DbLocalAccess{
   }
 
   //get LocalDocuments
-  static Future<Map> getLocalDocuments(String database,String docType) async {
+  static Future<Map> getLocalDocuments(String database,{String docType}) async {
     try{
-      final LocalDocumentsResponse localDocumentsResponse = await DbUtil.localDocuments.then((value) => value.localDocs(database,key: docType));
+      final LocalDocumentsResponse localDocumentsResponse = await DbUtil.localDocuments.then((value) => value.(database));
       return DbUtil.getResult(localDocumentsResponse.rows);
     }catch(e){
       print(e);
@@ -139,9 +138,9 @@ class DbLocalAccess{
   }
 
   //create LocalDocument
-  static Future<Map> createLocalDocuments(String database,Map data) async {
+  static Future<Map> createLocalDocuments(String database,Map<String,Object> data) async {
     try{
-      String id = data['_id'] == '' ? await DbUtil.uuids : data['id'];
+      String id = data['_id'] == '' ? await DbUtil.uuids : data['_id'];
       final LocalDocumentsResponse localDocumentsResponse = await DbUtil.localDocuments.then((value) => value.putLocalDoc(database,id,data));
       return DbUtil.getResult(localDocumentsResponse.doc);
     }catch(e){

@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
       _key.currentState.save();
       User user = User(username: text[0].text,password: text[1].text,docType: DbUtil.DOCTYPE['user_auth']);
       var result = await Controller.login(user);
-      result.isNotEmpty ? result['onError'] == 'None'? Navigator.popAndPushNamed(context, '/main') : showResult('Wrong Username or Password') : showResult('Check Internet Connection');
+      result.isNotEmpty ? result['onError'] == 'None' && result['result'].isNotEmpty ? Navigator.popAndPushNamed(context, '/main') : showResult('Wrong Username or Password') : showResult('Check Internet Connection');
     }
   }
 

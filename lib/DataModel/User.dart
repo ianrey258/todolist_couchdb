@@ -35,7 +35,7 @@ class User {
         "password": password,
     };
 
-    List toList()=>["_id","_rev","docType","username","password"];
+    List<String> toList()=>["_id","_rev","docType","username","password"];
 }
 
 class UserData {
@@ -90,5 +90,5 @@ class UserData {
         "event": event,
     };
 
-    List toList()=>["_id","_rev","docType","userId","name","todo","datetime","event"];
+    List<String> toList()=>["_id","_rev","docType","userId","name","todo","datetime","event"];
 }
